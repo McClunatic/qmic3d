@@ -41,7 +41,7 @@ Spectrum::Spectrum(QWidget *parent)
 
 bool Spectrum::initialize(const QSize &minimumGraphSize, const QSize &maximumGraphSize)
 {
-    resize(minimumGraphSize);
+    m_chartView->resize(minimumGraphSize);
     setMinimumSize(minimumGraphSize);
     setMaximumSize(maximumGraphSize);
     return true;

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "spectrum.h"
+#include "spectrogram.h"
 
 #include <QScreen>
 #include <QtWidgets/QMessageBox>
@@ -26,14 +27,20 @@ bool MainWindow::initialize()
 
     // Create spectrum 2D graph and spectrogram 3D graph
     auto *spectrum = new Spectrum(this);
-    if (!spectrum->initialize(minimumGraphSize, screenSize)) {
+    auto *spectrogram = new Spectrogram(this);
+    if (!spectrum->initialize(minimumGraphSize, screenSize)
+        || !spectrogram->initialize(minimumGraphSize, screenSize))
+    {
         QMessageBox::warning(nullptr, u"MP3D"_s, u"Couldn't initialize the OpenGL context."_s);
+        delete spectrum;
+        delete spectrogram;
         return false;
     }
 
     // Add spectrum 2D graph to layout
     auto *layout = new QVBoxLayout;
     layout->addWidget(spectrum);
+    layout->addWidget(spectrogram);
     centralWidget()->setLayout(layout);
     return true;
 }

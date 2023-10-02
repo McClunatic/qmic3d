@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS
     Charts
+    DataVisualization
     Widgets
 )
 
@@ -21,6 +22,8 @@ set(PROJECT_SOURCES
         mainwindow.h
         spectrum.cpp
         spectrum.h
+        spectrogram.cpp
+        spectrogram.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -48,6 +51,7 @@ endif()
 
 target_link_libraries(mp3d PRIVATE
         Qt${QT_VERSION_MAJOR}::Charts
+        Qt${QT_VERSION_MAJOR}::DataVisualization
         Qt${QT_VERSION_MAJOR}::Widgets)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
