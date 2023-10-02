@@ -1,16 +1,20 @@
 #ifndef SPECTRUM_H
 #define SPECTRUM_H
 
-#include <QObject>
+#include <QWidget>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 
-class Spectrum : public QObject
+class Spectrum : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Spectrum(QObject *parent = nullptr);
+    explicit Spectrum(QWidget *parent = nullptr);
 
-signals:
-
+    bool initialize(const QSize &minimumGraphSize, const QSize &maximumGraphSize);
+private:
+    QChartView *m_chartView = nullptr;
+    QLineSeries *m_series = nullptr;
 };
 
 #endif // SPECTRUM_H

@@ -10,5 +10,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    bool initialize();
 };
 #endif // MAINWINDOW_H
