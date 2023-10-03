@@ -12,6 +12,7 @@ public:
     explicit Spectrum(QWidget *parent = nullptr);
 
     bool initialize(const QSize &minimumGraphSize, const QSize &maximumGraphSize);
+    QLineSeries* series() { return m_series; }
 private:
     QChartView *m_chartView = nullptr;
     QLineSeries *m_series = nullptr;

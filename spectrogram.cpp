@@ -31,7 +31,8 @@ bool Spectrogram::initialize(const QSize &minimumGraphSize, const QSize &maximum
     *dataRow2 << QVector3D(0.0f, 1.8f, 1.0f) << QVector3D(1.0f, 1.2f, 1.0f);
     *data << dataRow1 << dataRow2;
 
-    QSurface3DSeries *series = new QSurface3DSeries;
-    series->dataProxy()->resetArray(data);
-    m_surface->addSeries(series);
+    m_series = new QSurface3DSeries;
+    m_series->dataProxy()->resetArray(data);
+    m_surface->addSeries(m_series);
+    return true;
 }

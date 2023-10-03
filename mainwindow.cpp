@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 #include "spectrum.h"
 #include "spectrogram.h"
+#include "plotiodevice.h"
 
 #include <QScreen>
+#include <QAudioDevice>
+#include <QAudioSource>
+#include <QMediaDevices>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QVBoxLayout>
 
@@ -25,13 +29,27 @@ bool MainWindow::initialize()
     const QSize screenSize = screen()->size();
     const QSize minimumGraphSize{screenSize.width() / 2, qRound(screenSize.height() / 3.5)};
 
+    // Add audio input device
+    const QAudioDevice inputDevice = QMediaDevices::defaultAudioInput();
+    if (inputDevice.isNull()) {
+        QMessageBox::warning(nullptr, u"MP3D"_s,
+                             u"There is no audio input device available."_s);
+        return false;
+    }
+
+    QAudioFormat formatAudio;
+    formatAudio.setSampleRate(16000);
+    formatAudio.setChannelCount(1);
+    formatAudio.setSampleFormat(QAudioFormat::UInt8);
+
     // Create spectrum 2D graph and spectrogram 3D graph
     auto *spectrum = new Spectrum(this);
     auto *spectrogram = new Spectrogram(this);
     if (!spectrum->initialize(minimumGraphSize, screenSize)
         || !spectrogram->initialize(minimumGraphSize, screenSize))
     {
-        QMessageBox::warning(nullptr, u"MP3D"_s, u"Couldn't initialize the OpenGL context."_s);
+        QMessageBox::warning(nullptr, u"MP3D"_s,
+                             u"Couldn't initialize the OpenGL context."_s);
         delete spectrum;
         delete spectrogram;
         return false;
@@ -42,6 +60,14 @@ bool MainWindow::initialize()
     layout->addWidget(spectrum);
     layout->addWidget(spectrogram);
     centralWidget()->setLayout(layout);
+
+    auto source = new QAudioSource(inputDevice, formatAudio);
+
+    auto device = new PlotIODevice(spectrum->series(), spectrogram->series(), this);
+    device->open(QIODevice::WriteOnly);
+
+    source->start(device);
+
     return true;
 }
 
