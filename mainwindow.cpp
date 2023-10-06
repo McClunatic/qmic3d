@@ -37,11 +37,6 @@ bool MainWindow::initialize()
         return false;
     }
 
-    QAudioFormat formatAudio;
-    formatAudio.setSampleRate(16000);
-    formatAudio.setChannelCount(1);
-    formatAudio.setSampleFormat(QAudioFormat::UInt8);
-
     // Create spectrum 2D graph and spectrogram 3D graph
     auto *spectrum = new Spectrum(this);
     auto *spectrogram = new Spectrogram(this);
@@ -61,6 +56,10 @@ bool MainWindow::initialize()
     layout->addWidget(spectrogram);
     centralWidget()->setLayout(layout);
 
+    QAudioFormat formatAudio;
+    formatAudio.setSampleRate(PlotIODevice::sampleRate);
+    formatAudio.setChannelCount(1);
+    formatAudio.setSampleFormat(QAudioFormat::Float);
     auto source = new QAudioSource(inputDevice, formatAudio);
 
     auto device = new PlotIODevice(spectrum->series(), spectrogram->series(), this);

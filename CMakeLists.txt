@@ -16,6 +16,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS
     Multimedia
     Widgets
 )
+find_package(FFTW3 CONFIG REQUIRED)
+find_package(FFTW3f CONFIG REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -56,7 +58,9 @@ target_link_libraries(mp3d PRIVATE
         Qt${QT_VERSION_MAJOR}::Charts
         Qt${QT_VERSION_MAJOR}::DataVisualization
         Qt${QT_VERSION_MAJOR}::Multimedia
-        Qt${QT_VERSION_MAJOR}::Widgets)
+        Qt${QT_VERSION_MAJOR}::Widgets
+        FFTW3::fftw3
+        FFTW3::fftw3f)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
