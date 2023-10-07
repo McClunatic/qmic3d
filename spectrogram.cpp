@@ -23,16 +23,20 @@ bool Spectrogram::initialize(const QSize &minimumGraphSize, const QSize &maximum
     m_container->setFocusPolicy(Qt::StrongFocus);
     layout->addWidget(m_container);
 
-    QSurfaceDataArray *data = new QSurfaceDataArray;
-    QSurfaceDataRow *dataRow1 = new QSurfaceDataRow;
-    QSurfaceDataRow *dataRow2 = new QSurfaceDataRow;
+    Q3DCamera *camera = new Q3DCamera;
+    camera->setCameraPreset(Q3DCamera::CameraPresetDirectlyAbove);
+    m_surface->scene()->setActiveCamera(camera);
+    m_surface->setOrthoProjection(true);
 
-    *dataRow1 << QVector3D(0.0f, 0.1f, 0.5f) << QVector3D(1.0f, 0.5f, 0.5f);
-    *dataRow2 << QVector3D(0.0f, 1.8f, 1.0f) << QVector3D(1.0f, 1.2f, 1.0f);
-    *data << dataRow1 << dataRow2;
+    QLinearGradient gr;
+    gr.setColorAt(0., Qt::black);
+    gr.setColorAt(.33, Qt::blue);
+    gr.setColorAt(.67, Qt::red);
+    gr.setColorAt(1.0, Qt::yellow);
 
     m_series = new QSurface3DSeries;
-    m_series->dataProxy()->resetArray(data);
+    m_series->setBaseGradient(gr);
+    m_series->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
     m_surface->addSeries(m_series);
     return true;
 }
