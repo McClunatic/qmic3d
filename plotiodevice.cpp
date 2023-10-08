@@ -20,23 +20,13 @@ PlotIODevice::PlotIODevice(QLineSeries *lseries, QSurface3DSeries *sseries,
     xAxis->setRange(1., sampleRate / 2.);  // 0 to Nyquist frequency, Hz
     yAxis->setRange(0., 60.);  // 0 to 60, dB
 
-//    auto array = new QSurfaceDataArray;
-//    for (int i = 100; i >= 0; --i) {
-//        float t = 0.f - (float(i) * n_fft) / sampleRate;
-//        auto row = new QSurfaceDataRow;
-//        for (int j = 0; j < (n_fft / 2 + 1); ++j) {
-//            auto y = 1e-10f + (float(j) * sampleRate) / n_fft;
-//            qDebug() << y;
-//            *row << QVector3D(100 * t, 0.f, y);
-//        }
-//        *array << row;
-//    }
-
     auto array = new QSurfaceDataArray;
-    for (int k = 0; k < 10; ++k) {
+    for (int i = 100; i >= 0; --i) {
         auto row = new QSurfaceDataRow;
-        for (int m = 0; m < 10; ++m) {
-            *row << QVector3D(m, k + m, k);
+        float t = 0.f - (float(i) * n_fft) / sampleRate;
+        for (int j = 0; j < (n_fft / 2 + 1); ++j) {
+            auto x = 1e-10f + (float(j) * sampleRate) / n_fft;
+            *row << QVector3D(x, 0.f, t);
         }
         *array << row;
     }
@@ -95,21 +85,21 @@ qint64 PlotIODevice::writeData(const char *data, qint64 maxSize)
         c = 10. * std::log10(std::max(1.e-10f, c.real()));
     }
 
-//    auto proxy = m_surfaceSeries->dataProxy();
-//    auto t = proxy->itemAt(proxy->rowCount() - 1, 0)->x();
-//    t += float(n_fft) / sampleRate;
+    auto proxy = m_surfaceSeries->dataProxy();
+    auto t = proxy->array()->last()->last().z();
+    t += float(n_fft) / sampleRate;
 
     QList<QPointF> line;
-//    auto row = new QSurfaceDataRow;
-    for (int i = 0; i < (n_fft / 2 + 1); ++i) {
-        auto x = std::max(1e-10f, float(i * sampleRate) / n_fft);
-        auto y = m_out[i].real();
+    auto row = new QSurfaceDataRow;
+    for (int j = 0; j < (n_fft / 2 + 1); ++j) {
+        auto x = std::max(1e-10f, (float(j)* sampleRate) / n_fft);
+        auto y = m_out[j].real();
         line.append(QPointF(x, y));
-//        *row << QVector3D(100 * t, y, x);
+        *row << QVector3D(x, y, t);
     }
     m_lineSeries->replace(line);
-//    proxy->removeRows(0, 1);
-//    proxy->addRow(row);
+    proxy->removeRows(0, 1);
+    proxy->addRow(row);
 
     return maxSize;
 }

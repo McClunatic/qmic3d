@@ -27,7 +27,7 @@ Spectrum::Spectrum(QWidget *parent)
     chart->addAxis(axisY, Qt::AlignLeft);
     m_series->attachAxis(axisY);
     chart->legend()->hide();
-    chart->setTitle("Simple Sine Wave");
+    chart->setTitle("FFT of microphone audio");
 
     auto layout = new QVBoxLayout(this);
     layout->addWidget(m_chartView);

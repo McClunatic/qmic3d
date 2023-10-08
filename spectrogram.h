@@ -16,6 +16,7 @@ public:
 private:
     Q3DSurface *m_surface = nullptr;
     QWidget *m_container = nullptr;
+    QSurfaceDataProxy *m_proxy = nullptr;
     QSurface3DSeries *m_series = nullptr;
 };
 
