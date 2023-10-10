@@ -1,39 +1,27 @@
-#include "spectrum.h"
+#include "scatterspectro.h"
 
 #include <QVBoxLayout>
-#include <QtCharts/QChart>
-#include <QtCharts/QValueAxis>
 #include <QtCharts/QLogValueAxis>
+#include <QtCharts/QValueAxis>
 
-Spectrum::Spectrum(QWidget *parent)
+ScatterSpectro::ScatterSpectro(QWidget *parent)
     : QWidget{parent}
-    , m_series{new QLineSeries}
     , m_chartView{new QChartView(new QChart)}
 {
-
     auto chart = m_chartView->chart();
-    chart->addSeries(m_series);
 
     auto axisX = new QLogValueAxis;
-    axisX->setBase(2.0);
-    axisX->setLabelFormat("%g");
-    axisX->setTitleText("Frequency (Hz)");
-
     auto axisY = new QValueAxis;
-    axisY->setLabelFormat("%g");
-    axisY->setTitleText("Audio (dB)");
     chart->addAxis(axisX, Qt::AlignBottom);
-    m_series->attachAxis(axisX);
     chart->addAxis(axisY, Qt::AlignLeft);
-    m_series->attachAxis(axisY);
     chart->legend()->hide();
-    chart->setTitle("FFT of microphone audio");
+    chart->setPlotAreaBackgroundVisible(true);
 
     auto layout = new QVBoxLayout(this);
     layout->addWidget(m_chartView);
 }
 
-bool Spectrum::initialize(const QSize &minimumGraphSize, const QSize &maximumGraphSize)
+bool ScatterSpectro::initialize(const QSize &minimumGraphSize, const QSize &maximumGraphSize)
 {
     m_chartView->resize(minimumGraphSize);
     setMinimumSize(minimumGraphSize);

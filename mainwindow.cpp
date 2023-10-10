@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "spectrum.h"
-#include "spectrogram.h"
+#include "scatterspectro.h"
 #include "plotiodevice.h"
 
 #include <QScreen>
@@ -39,7 +39,7 @@ bool MainWindow::initialize()
 
     // Create spectrum 2D graph and spectrogram 3D graph
     auto *spectrum = new Spectrum(this);
-    auto *spectrogram = new Spectrogram(this);
+    auto *spectrogram = new ScatterSpectro(this);
     if (!spectrum->initialize(minimumGraphSize, screenSize)
         || !spectrogram->initialize(minimumGraphSize, screenSize))
     {
@@ -62,7 +62,7 @@ bool MainWindow::initialize()
     formatAudio.setSampleFormat(QAudioFormat::Float);
     auto source = new QAudioSource(inputDevice, formatAudio);
 
-    auto device = new PlotIODevice(spectrum->series(), spectrogram->series(), this);
+    auto device = new PlotIODevice(spectrum->series(), spectrogram->chart(), this);
     device->open(QIODevice::WriteOnly);
 
     source->start(device);

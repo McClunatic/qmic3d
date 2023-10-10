@@ -14,8 +14,8 @@ public:
     bool initialize(const QSize &minimumGraphSize, const QSize &maximumGraphSize);
     QLineSeries* series() { return m_series; }
 private:
-    QChartView *m_chartView = nullptr;
     QLineSeries *m_series = nullptr;
+    QChartView *m_chartView = nullptr;
 };
 
 #endif // SPECTRUM_H

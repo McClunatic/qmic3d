@@ -8,7 +8,7 @@
   "configurePresets": [
     {
       "hidden": true,
-      "name": "Qt-6.5.2",
+      "name": "Qt-6.5.3",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build"
     },
@@ -17,7 +17,7 @@
       "displayName": "Debug (x64)",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build",
-      "inherits": ["Qt-6.5.2"],
+      "inherits": ["Qt-6.5.3"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
@@ -27,7 +27,7 @@
       "displayName": "Release (x64)",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build",
-      "inherits": ["Qt-6.5.2"],
+      "inherits": ["Qt-6.5.3"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -37,7 +37,7 @@
       "displayName": "Release with Debug Information (x64)",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build",
-      "inherits": ["Qt-6.5.2"],
+      "inherits": ["Qt-6.5.3"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
@@ -47,7 +47,7 @@
       "displayName": "Minimum Size Release (x64)",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build",
-      "inherits": ["Qt-6.5.2"],
+      "inherits": ["Qt-6.5.3"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "MinSizeRel"
       }
